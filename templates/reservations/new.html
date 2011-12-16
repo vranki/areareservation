@@ -1,0 +1,48 @@
+<form action="/reservations/{{ site.icao }}/create/" method="post">
+<fieldset>
+   <legend><b>Uusi varaus {{ site.name }}({{ site.icao }})</b></legend>
+Päivä
+<input id="today" type="radio" name="today" value="yes" checked="yes">
+<label for="today">Tänään</label>
+<input id="tomorrow" type="radio" name="tomorrow" value="yes">
+<label for="tomorrow">Huomenna</label>
+<input id="customdate" type="radio" name="customdate" value="yes">
+<label for="customdate"></label>
+<label for="date">Myöhemmin (PP.KK)</label>
+<input id="date" type="text" name="date" size="5"> <br/>
+
+Aika (HHMM)
+   <label for="startTime"></label>
+   <input id="startTime" type="text" name="startTime" size="5">
+-
+   <label for="endTime"></label>
+   <input id="endTime" type="text" name="endTime" size="5">
+ <br/>
+<fieldset>
+   <legend><b>Alueet</b></legend>
+ <br/>
+{% for area in areas %}
+{{ area.name }}:
+{% for level in levels %}
+<input id="{{ area.id }}/{{ level }}" type="radio" name="{{ area.id }}/{{ level }}" value="yes">
+<label for="{{ area.id }}/{{ level }}">FL{{ level }} </label>
+{% endfor %}
+<input id="{{ area.id }}/custom" type="radio" name="{{ area.id }}/custom" value="yes">
+<label for="{{ area.id }}/custom">FL<input id="custom" type="text" name="{{ area.id }}/customlevel" size="3">
+</label>
+   <input id="{{ area.id }}/imc" type="checkbox" name="{{ area.id }}/imc">
+   <label for="{{ area.id }}/imc">IMC</label>
+ <br/>
+{% endfor %}
+</fieldset> 
+ <br/>
+   <label for="comment">Lisätiedot</label>
+ <br/>
+   <textarea id="comment" type="textarea" name="comment" cols="30" rows="3"></textarea>
+ <br/>
+<input type="submit" value="Tee varaus" />
+<a href="/">Takaisin</a>
+</fieldset> 
+{% csrf_token %}
+</form>
+

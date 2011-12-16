@@ -1,0 +1,8 @@
+<h1>Aluevaraus</h1>
+Valitse lentopaikka
+<ul>
+{% for site in sites %}
+    <li><a href="/reservations/new/{{ site.icao }}/">{{ site.name }}</a></li>
+{% endfor %}
+</ul>
+

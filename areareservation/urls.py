@@ -1,17 +1,22 @@
 from django.conf.urls.defaults import patterns, include, url
 
 # Uncomment the next two lines to enable the admin:
-# from django.contrib import admin
-# admin.autodiscover()
+from django.contrib import admin
+admin.autodiscover()
 
-urlpatterns = patterns('',
+urlpatterns = patterns('reservations.views',
     # Examples:
-    # url(r'^$', 'areareservation.views.home', name='home'),
+    url(r'^$', 'index'),
     # url(r'^areareservation/', include('areareservation.foo.urls')),
-
+    url(r'^reservations/$', 'index'),
+    url(r'^reservations/(?P<reservation_id>\d+)/$', 'detail'),
+    url(r'^reservations/new/(?P<site_id>.+)/$', 'newreservation'),
+    url(r'^reservations/(?P<site_id>.+)/create/$', 'createreservation'),
+)
+urlpatterns += patterns('',
     # Uncomment the admin/doc line below to enable admin documentation:
-    # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
+    url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
 
     # Uncomment the next line to enable the admin:
-    # url(r'^admin/', include(admin.site.urls)),
+    url(r'^admin/', include(admin.site.urls)),
 )
