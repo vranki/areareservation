@@ -24,7 +24,7 @@ class Reservation(models.Model):
 	date = models.DateField('Date active')
 	startTime = models.TimeField('Starting time')
 	endTime = models.TimeField('Ending time')
-	comment = models.CharField("Comment text", blank=True, max_length=2048)
+	comment = models.CharField("Comment text", blank=True, null=True, max_length=2048)
 	status = models.IntegerField(choices=STATUS_CHOICES)
 	def __unicode__(self):
 		return self.site.icao + " " + str(self.date) + " (" + str(self.id) + ")"
@@ -32,8 +32,10 @@ class Reservation(models.Model):
 class AreaReservation(models.Model):
 	reservation = models.ForeignKey(Reservation)
 	area = models.ForeignKey(Area)
-	startTime = models.TimeField('Starting time', blank=True)
-	endTime = models.TimeField('Ending time', blank=True)
+	startTime = models.TimeField('Starting time', null=True)
+	endTime = models.TimeField('Ending time', null=True)
 	flightLevel = models.IntegerField('Ceiling flight level')
 	isImc = models.BooleanField("Reservation is IMC")
+	def __unicode__(self):
+		return "Reservation of " + self.area.name + " FL" + str(self.flightLevel) + " on " + str(self.reservation.date) + " imc: " + str(self.isImc)
 

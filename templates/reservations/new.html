@@ -11,30 +11,42 @@ Päivä
 <label for="date">Myöhemmin (PP.KK)</label>
 <input id="date" type="text" name="date" size="5"> <br/>
 
-Aika (HHMM)
+Aika (HH.MM)
    <label for="startTime"></label>
-   <input id="startTime" type="text" name="startTime" size="5">
+   <input id="startTime" type="text" name="startTime" size="5" value="08.00">
 -
    <label for="endTime"></label>
-   <input id="endTime" type="text" name="endTime" size="5">
+   <input id="endTime" type="text" name="endTime" size="5" value="20.00">
  <br/>
 <fieldset>
    <legend><b>Alueet</b></legend>
  <br/>
 {% for area in areas %}
 {{ area.name }}:
+<input id="{{ area.id }}/no" type="radio" name="area-{{ area.id }}" value="no" checked="true">
+<label for="{{ area.id }}/no">Ei</label>
 {% for level in levels %}
-<input id="{{ area.id }}/{{ level }}" type="radio" name="{{ area.id }}/{{ level }}" value="yes">
+<input id="{{ area.id }}/{{ level }}" type="radio" name="area-{{ area.id }}" value="{{ level }}">
 <label for="{{ area.id }}/{{ level }}">FL{{ level }} </label>
 {% endfor %}
-<input id="{{ area.id }}/custom" type="radio" name="{{ area.id }}/custom" value="yes">
+<input id="{{ area.id }}/custom" type="radio" name="area-{{ area.id }}" value="custom">
 <label for="{{ area.id }}/custom">FL<input id="custom" type="text" name="{{ area.id }}/customlevel" size="3">
 </label>
-   <input id="{{ area.id }}/imc" type="checkbox" name="{{ area.id }}/imc">
+   <input id="{{ area.id }}/imc" type="checkbox" name="area-{{ area.id }}/imc">
    <label for="{{ area.id }}/imc">IMC</label>
  <br/>
 {% endfor %}
 </fieldset> 
+Tila
+<input id="status-1" type="radio" name="status" value="1" checked="true">
+<label for="status-1">Suunniteltu</label>
+<input id="status-2" type="radio" name="status" value="2">
+<label for="status-2">Pyydetty</label>
+<input id="status-3" type="radio" name="status" value="3">
+<label for="status-3">Hyväksytty</label>
+<input id="status-4" type="radio" name="status" value="4">
+<label for="status-4">Hylätty</label>
+
  <br/>
    <label for="comment">Lisätiedot</label>
  <br/>

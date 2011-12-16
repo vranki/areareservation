@@ -2,7 +2,8 @@
 Valitse lentopaikka
 <ul>
 {% for site in sites %}
-    <li><a href="/reservations/new/{{ site.icao }}/">{{ site.name }}</a></li>
+    <li><a href="/sites/{{ site.icao }}/">{{ site.name }}</a>
+    <a href="/reservations/new/{{ site.icao }}/">Uusi varaus</a></li>
 {% endfor %}
 </ul>
 

@@ -1,0 +1,11 @@
+<h1>{{ site.name }} ({{ site.icao }})</h1>
+Aktiiviset varaukset
+<ul>
+{% for reservation in reservations %}
+    <li> {{ reservation }}
+{% endfor %}
+</ul>
+<a href="/reservations/new/{{ site.icao }}/">Uusi varaus</a></li>
+<br/>
+<a href="/">Takaisin</a>
+
