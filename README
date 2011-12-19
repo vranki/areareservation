@@ -1,2 +1,60 @@
+
 Heavily WIP.
+
+*** Installation ***
+
+1) Get sources
+
+sudo apt-get install python-django git
+git clone git://github.com/vranki/areareservation.git
+
+2) Configure
+
+edit areareservation/settings.py. Modify the following lines if
+needed:
+
+DEBUG = True
+You might want to change to False in production use.
+
+'NAME': 'areareservation.db', 
+Name of the database file. You might want to set an absolute path.
+
+SECRET_KEY = '1234'
+Set this to some long random key in production use.
+
+'../templates',
+Set this to absolute path if needed.
+
+3) Initialize database
+
+cd areareservation/areareservation
+python manage.py syncdb
+
+This will initialize the database and allows you to create
+a superuser account.
+
+4) Run server
+You can either use django's internal web server (not good for 
+production) or integrate django in Apache or other real server.
+
+To run django's server, run:
+python manage.py runserver
+
+Instructions for setting up django in Apache (and other servers)
+can be found using google.
+
+*** Usage ***
+ 
+You must create some sites (= airports) using the admin interface. With
+django's internal server it can be found at http://127.0.0.1:8000/admin/
+
+Log in using superuser account you created earlier.
+
+*** Upgrading ***
+
+To upgrade to latest version, cd to the areareservation directory and run
+
+git pull
+
+Note: you may need to delete the database file and run syncdb after upgrading.
 
