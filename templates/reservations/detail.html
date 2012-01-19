@@ -1,0 +1,37 @@
+{% load l10n %}
+{% localize on %}
+<h1>
+Aluevaraus {{ reservation.site }} {{ reservation.date|date:"D j.n" }}
+</h1>
+<h2>Varatut alueet</h2>
+<table border="1">
+<tr>
+<td>Alue</td><td>Pinnalle</td><td>Kello</td>
+</tr>
+{% for area in areas %}
+<tr>
+<td>
+{{ area.area.name }}
+</td>
+<td>
+FL{{ area.flightLevel }}
+{% if area.isImc %}
+IMC
+{% else %}
+VMC
+{% endif %}
+</td>
+<td>
+{% if area.startTime %}
+{{ area.startTime }}-{{ area.endTime }}
+{% else %}
+{{ reservation.startTime|time:"H:i" }}-{{ reservation.endTime|time:"H:i" }}
+{% endif %}
+</td>
+</tr>
+{% endfor %}
+</table>
+<a href="/reservations/delete/{{ reservation.id }}/">Poista</a><br/>
+<a href="/sites/{{ reservation.site.icao }}">Takaisin</a>
+{% endlocalize %}
+

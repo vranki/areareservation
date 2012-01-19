@@ -12,6 +12,7 @@ urlpatterns = patterns('reservations.views',
     url(r'^sites/(?P<site_id>.+)/$', 'sitedetails'),
     url(r'^reservations/(?P<reservation_id>\d+)/$', 'detail'),
     url(r'^reservations/new/(?P<site_id>.+)/$', 'newreservation'),
+    url(r'^reservations/delete/(?P<reservation_id>.+)/$', 'deletereservation'),
     url(r'^reservations/(?P<site_id>.+)/create/$', 'createreservation'),
 )
 urlpatterns += patterns('',

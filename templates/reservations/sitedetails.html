@@ -1,11 +1,43 @@
+{% load l10n %}
+{% localize on %}
 <h1>{{ site.name }} ({{ site.icao }})</h1>
-Aktiiviset varaukset
-<ul>
-{% for reservation in reservations %}
-    <li> {{ reservation }}
-{% endfor %}
-</ul>
+
 <a href="/reservations/new/{{ site.icao }}/">Uusi varaus</a></li>
 <br/>
+
+<table border="0" cellspacing="1">
+<tr bgcolor="#009999">
+<td colspan="{{futurereservations|length }}"><div align="center"><b>Tulevat varaukset</div></td>
+</tr>
+<tr bgcolor="#99CCCC">
+{% for res in futurereservations %}
+<td valign="top">
+<div align="center">
+{{ res.date|date:"D j.n" }}<br/>
+<hr/>
+{% if res.reservation %}
+<a href="/reservations/{{ res.id }}/">
+{{ res.reservation.site }}<br/>
+{% for area in res.areas %}
+{{ area.area.name }} FL{{ area.flightLevel }}<br/>
+{% endfor %}
+</a>
+
+{% else %}
+    -
+{% endif %}
+</div>
+</td>
+{% endfor %}
+</tr>
+</table>
+Kaikki varaukset
+<ul>
+{% for reservation in reservations %}
+    <li> {{ reservation }} <a href="/reservations/delete/{{ reservation.id }}/">Poista</a></li>
+{% endfor %}
+</ul>
+
 <a href="/">Takaisin</a>
+{% endlocalize %}
 

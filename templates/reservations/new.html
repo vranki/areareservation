@@ -2,11 +2,11 @@
 <fieldset>
    <legend><b>Uusi varaus {{ site.name }}({{ site.icao }})</b></legend>
 Päivä
-<input id="today" type="radio" name="today" value="yes" checked="yes">
+<input id="today" type="radio" name="day" value="today" checked="yes">
 <label for="today">Tänään</label>
-<input id="tomorrow" type="radio" name="tomorrow" value="yes">
+<input id="tomorrow" type="radio" name="day" value="tomorrow">
 <label for="tomorrow">Huomenna</label>
-<input id="customdate" type="radio" name="customdate" value="yes">
+<input id="customdate" type="radio" name="day" value="customdate">
 <label for="customdate"></label>
 <label for="date">Myöhemmin (PP.KK)</label>
 <input id="date" type="text" name="date" size="5"> <br/>
@@ -30,8 +30,8 @@ Aika (HH.MM)
 <label for="{{ area.id }}/{{ level }}">FL{{ level }} </label>
 {% endfor %}
 <input id="{{ area.id }}/custom" type="radio" name="area-{{ area.id }}" value="custom">
-<label for="{{ area.id }}/custom">FL<input id="custom" type="text" name="{{ area.id }}/customlevel" size="3">
-</label>
+<label for="{{ area.id }}/custom">FL</label><input id="custom" type="text" name="{{ area.id }}/customlevel" size="3">
+
    <input id="{{ area.id }}/imc" type="checkbox" name="area-{{ area.id }}/imc">
    <label for="{{ area.id }}/imc">IMC</label>
  <br/>
@@ -50,10 +50,10 @@ Tila
  <br/>
    <label for="comment">Lisätiedot</label>
  <br/>
-   <textarea id="comment" type="textarea" name="comment" cols="30" rows="3"></textarea>
+   <textarea id="comment" type="textarea" name="comment" cols="60" rows="3"></textarea>
  <br/>
 <input type="submit" value="Tee varaus" />
-<a href="/">Takaisin</a>
+<a href="/sites/{{ site.icao }}">Takaisin</a>
 </fieldset> 
 {% csrf_token %}
 </form>
