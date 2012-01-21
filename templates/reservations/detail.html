@@ -1,19 +1,20 @@
-{% load l10n %}
-{% localize on %}
+{% extends "reservations/base.html" %}
+
+{% block content %}
 <h1>
 Aluevaraus {{ reservation.site }} {{ reservation.date|date:"D j.n" }}
 </h1>
 <h2>Varatut alueet</h2>
-<table border="1">
-<tr>
+<table border="0">
+<tr class="tableheading">
 <td>Alue</td><td>Pinnalle</td><td>Kello</td>
 </tr>
 {% for area in areas %}
-<tr>
-<td>
+<tr class="tablebody">
+<td class="tablebody">
 {{ area.area.name }}
 </td>
-<td>
+<td class="tablebody">
 FL{{ area.flightLevel }}
 {% if area.isImc %}
 IMC
@@ -21,7 +22,7 @@ IMC
 VMC
 {% endif %}
 </td>
-<td>
+<td class="tablebody">
 {% if area.startTime %}
 {{ area.startTime }}-{{ area.endTime }}
 {% else %}
@@ -31,7 +32,32 @@ VMC
 </tr>
 {% endfor %}
 </table>
-<a href="/reservations/delete/{{ reservation.id }}/">Poista</a><br/>
-<a href="/sites/{{ reservation.site.icao }}">Takaisin</a>
-{% endlocalize %}
+{% if reservation.comment %}
+<h2>Lisätiedot</h2>
+{{ reservation.comment }}
+{% endif %}
+
+<h2>Varauksen tila</h2>
+{% if reservation.status == reservation.PLANNED_STATUS %}
+Suunniteltu<br/>
+<ul>
+<li><a href="/reservations/setstatus/{{ reservation.id }}/{{reservation.REQUESTED_STATUS}}">Merkitse pyydetyksi</a> - varausta on pyydetty, mutta vastausta ei olla saatu</li> 
+<li><a href="/reservations/setstatus/{{ reservation.id }}/{{reservation.ACCEPTED_STATUS}}">Merkitse hyväksytyksi</a> - varaus on hyväksytty</li> 
+<li><a href="/reservations/setstatus/{{ reservation.id }}/{{reservation.REJECTED_STATUS}}">Merkitse hylätyksi</a> - varaus on hylätty</li> 
+{% endif %}
+{% if reservation.status == reservation.REQUESTED_STATUS %}
+Pyydetty -><br/>
+<li><a href="/reservations/setstatus/{{ reservation.id }}/{{reservation.ACCEPTED_STATUS}}">Merkitse hyväksytyksi</a> - varaus on hyväksytty</li> 
+<li><a href="/reservations/setstatus/{{ reservation.id }}/{{reservation.REJECTED_STATUS}}">Merkitse hylätyksi</a> - varaus on hylätty</li> 
+{% endif %}
+{% if reservation.status == reservation.ACCEPTED_STATUS %}
+Hyväksytty<br/>
+{% endif %}
+{% if reservation.status == reservation.REJECTED_STATUS %}
+Hylätty<br/>
+{% endif %}
+</ul>
+<hr/>
+<a href="/reservations/delete/{{ reservation.id }}/">Poista tämä varaus</a><br/>
+{% endblock %}
 

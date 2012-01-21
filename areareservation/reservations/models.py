@@ -14,11 +14,15 @@ class Area(models.Model):
 		return self.name + " (" + self.site.name + ")" 
 
 class Reservation(models.Model):
+	PLANNED_STATUS=1
+	REQUESTED_STATUS=2
+	ACCEPTED_STATUS=3
+	REJECTED_STATUS=4
 	STATUS_CHOICES = (
-		(1, 'Planned'), 
-		(2, 'Requested'), 
-		(3, 'Accepted'), 
-		(4, 'Rejected'), 
+		(PLANNED_STATUS, 'Planned'), 
+		(REQUESTED_STATUS, 'Requested'), 
+		(ACCEPTED_STATUS, 'Accepted'), 
+		(REJECTED_STATUS, 'Rejected'), 
 	)
 	site = models.ForeignKey(Site)
 	date = models.DateField('Date active')
@@ -29,6 +33,9 @@ class Reservation(models.Model):
 	def __unicode__(self):
 		return self.site.icao + " " + str(self.date) + " (" + str(self.id) + ")"
 
+	def areas(self):
+		return AreaReservation.objects.filter(reservation=self)
+
 class AreaReservation(models.Model):
 	reservation = models.ForeignKey(Reservation)
 	area = models.ForeignKey(Area)
@@ -38,4 +45,7 @@ class AreaReservation(models.Model):
 	isImc = models.BooleanField("Reservation is IMC")
 	def __unicode__(self):
 		return "Reservation of " + self.area.name + " FL" + str(self.flightLevel) + " on " + str(self.reservation.date) + " imc: " + str(self.isImc)
+
+	def areaName(self):
+		return self.area.name
 

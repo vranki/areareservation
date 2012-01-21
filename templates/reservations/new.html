@@ -1,26 +1,45 @@
-<form action="/reservations/{{ site.icao }}/create/" method="post">
-<fieldset>
-   <legend><b>Uusi varaus {{ site.name }}({{ site.icao }})</b></legend>
-Päivä
+{% extends "reservations/base.html" %}
+
+{% block content %}
+<script type="text/javascript">
+function validateForm()
+{
+var day=document.forms["newreservation"]["day"].value;
+alert(day)
+if (day=="customdate")
+  {
+ alert("kek");
+  var date = document.forms["newreservation"]["day"].value;
+  var validdate = /^\d{2}\.\d{2}$/;
+  if(date==null || !validdate.test(date))
+  	alert("Tarkista päivämäärä");
+  return false;
+  }
+}
+</script>
+<form action="/reservations/{{ site.icao }}/create/" method="post" name="newreservation" onsubmit="return validateForm()">
+<fieldset> <legend><b>Uusi varaus {{ site }}</b></legend>
+<fieldset> <legend><b>Päivä ja aika</b></legend>
 <input id="today" type="radio" name="day" value="today" checked="yes">
 <label for="today">Tänään</label>
 <input id="tomorrow" type="radio" name="day" value="tomorrow">
 <label for="tomorrow">Huomenna</label>
 <input id="customdate" type="radio" name="day" value="customdate">
 <label for="customdate"></label>
-<label for="date">Myöhemmin (PP.KK)</label>
-<input id="date" type="text" name="date" size="5"> <br/>
+<label for="date">Myöhemmin</label>
+<input id="date" type="text" name="date" size="5"" value="PP.KK" 
+onblur="if (this.value == '') {this.value = 'PP.KK';}"  onfocus="if (this.value == 'PP.KK') {this.value = '';}"/> <br/>
 
-Aika (HH.MM)
+Kello
    <label for="startTime"></label>
    <input id="startTime" type="text" name="startTime" size="5" value="08.00">
 -
    <label for="endTime"></label>
    <input id="endTime" type="text" name="endTime" size="5" value="20.00">
+paikallista aikaa
  <br/>
-<fieldset>
-   <legend><b>Alueet</b></legend>
- <br/>
+</fieldset>
+<fieldset> <legend><b>Alueet</b></legend>
 {% for area in areas %}
 {{ area.name }}:
 <input id="{{ area.id }}/no" type="radio" name="area-{{ area.id }}" value="no" checked="true">
@@ -30,31 +49,31 @@ Aika (HH.MM)
 <label for="{{ area.id }}/{{ level }}">FL{{ level }} </label>
 {% endfor %}
 <input id="{{ area.id }}/custom" type="radio" name="area-{{ area.id }}" value="custom">
-<label for="{{ area.id }}/custom">FL</label><input id="custom" type="text" name="{{ area.id }}/customlevel" size="3">
+<label for="{{ area.id }}/custom">FL</label><input type="text" name="{{ area.id }}/customlevel" size="3">
 
    <input id="{{ area.id }}/imc" type="checkbox" name="area-{{ area.id }}/imc">
    <label for="{{ area.id }}/imc">IMC</label>
  <br/>
 {% endfor %}
 </fieldset> 
-Tila
+<fieldset> <legend><b>Tila</b></legend>
 <input id="status-1" type="radio" name="status" value="1" checked="true">
-<label for="status-1">Suunniteltu</label>
+<label for="status-1">Suunniteltu</label> - Varausta ei ole vielä pyydetty<br/>
 <input id="status-2" type="radio" name="status" value="2">
-<label for="status-2">Pyydetty</label>
+<label for="status-2">Pyydetty</label> - Varausta on pyydetty, mutta vastausta ei olla saatu<br/>
 <input id="status-3" type="radio" name="status" value="3">
-<label for="status-3">Hyväksytty</label>
+<label for="status-3">Hyväksytty</label> - Varaus on hyväksytty<br/>
 <input id="status-4" type="radio" name="status" value="4">
-<label for="status-4">Hylätty</label>
-
- <br/>
-   <label for="comment">Lisätiedot</label>
- <br/>
+<label for="status-4">Hylätty</label> - Varaus on hylätty<br/>
+</fieldset> 
+<fieldset> <legend><b>Lisätiedot</b></legend>
    <textarea id="comment" type="textarea" name="comment" cols="60" rows="3"></textarea>
+
+</fieldset> 
  <br/>
-<input type="submit" value="Tee varaus" />
-<a href="/sites/{{ site.icao }}">Takaisin</a>
+<input type="submit" value="    Tee varaus     "/>
 </fieldset> 
 {% csrf_token %}
 </form>
+{% endblock %}
 

@@ -1,25 +1,26 @@
-{% load l10n %}
-{% localize on %}
-<h1>{{ site.name }} ({{ site.icao }})</h1>
+{% extends "reservations/base.html" %}
 
-<a href="/reservations/new/{{ site.icao }}/">Uusi varaus</a></li>
-<br/>
+{% block content %}
+
+<h1>{{ site }}</h1>
 
 <table border="0" cellspacing="1">
-<tr bgcolor="#009999">
-<td colspan="{{futurereservations|length }}"><div align="center"><b>Tulevat varaukset</div></td>
+<tr class="tableheading">
+<td colspan="{{futurereservations|length }}"><div align="center" class="tableheading">Tulevat varaukset</div></td>
 </tr>
-<tr bgcolor="#99CCCC">
+<tr class="tablebody">
+<div class="tablebody">
 {% for res in futurereservations %}
 <td valign="top">
-<div align="center">
 {{ res.date|date:"D j.n" }}<br/>
 <hr/>
-{% if res.reservation %}
+{% if res.reservations %}
+{% for r in res.reservations %}
 <a href="/reservations/{{ res.id }}/">
-{{ res.reservation.site }}<br/>
-{% for area in res.areas %}
-{{ area.area.name }} FL{{ area.flightLevel }}<br/>
+{% for area in r.areas %}
+{{ area.areaName }} FL{{ area.flightLevel }}<br/>
+{% endfor %}
+<hr/>
 {% endfor %}
 </a>
 
@@ -31,13 +32,15 @@
 {% endfor %}
 </tr>
 </table>
-Kaikki varaukset
+<a href="/reservations/new/{{ site.icao }}/">Uusi varaus</a></li>
+
+<h2>Kaikki varaukset</h2>
 <ul>
 {% for reservation in reservations %}
     <li> {{ reservation }} <a href="/reservations/delete/{{ reservation.id }}/">Poista</a></li>
 {% endfor %}
 </ul>
 
-<a href="/">Takaisin</a>
-{% endlocalize %}
+
+{% endblock %}
 

@@ -1,9 +1,7 @@
+{% extends "reservations/base.html" %}
+
+{% block content %}
 <h1>Aluevaraus</h1>
-Valitse lentopaikka
-<ul>
-{% for site in sites %}
-    <li><a href="/sites/{{ site.icao }}/">{{ site.name }}</a>
-    <a href="/reservations/new/{{ site.icao }}/">Uusi varaus</a></li>
-{% endfor %}
-</ul>
+Valitse lentopaikka sivun yläreunasta
+{% endblock %}
 

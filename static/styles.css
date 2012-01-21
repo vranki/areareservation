@@ -1,0 +1,29 @@
+* {padding:0.0em; margin:0.0em;}
+
+body {background:#000000; font-family: "Helvetica Neue", Helvetica, Verdana, sans-serif; color:#FFFFFF;}
+p, ul, ol {font-size:1.2em;}
+h1 {font-size:1.5em;}
+h2 {font-size:1.3em;}
+a {color:#CCCCFF}
+td.title {background:#FFFFFF}
+a.title {color:#000000}
+td.sitelist {background:#000033}
+a.sitelist {background:#000066;color:#FFFFFF}
+td.body {background:#111111;}
+div.tableheading {color:#000000;padding:0.2em}
+tr.tableheading {background:#999999}
+tr.tablebody {background:#333333;text-align:center}
+div.tablebody {margin:2em}
+
+fieldset {
+  padding: 1em;
+  background-color:#333333;
+  }
+
+label {
+  margin-right:0.5em;
+  padding-top:0.2em;
+  text-align:right;
+  font-weight:bold;
+}
+

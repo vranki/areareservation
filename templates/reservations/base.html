@@ -1,0 +1,32 @@
+
+{% load l10n %}
+{% localize on %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Aluevaraus</title>
+  <meta name="description" content="Aluevaraus">
+  <meta name="author" content="Ville Ranki">
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+<table border="0" cellspacing="1" width="90%">
+<tr>
+<td class="title">
+<a href="/" class="title">Aluevarausjärjestelmä</a>
+</td>
+<td align="center" width="90%" class="sitelist">
+{% for site in sites %}
+<a href="/sites/{{ site.icao }}/" class="sitelist">{{ site }}</a>
+{% endfor %}
+</td>
+</tr>
+<tr>
+<td colspan="2" class="body">
+        {% block content %}{% endblock %}
+</td>
+</table>
+</body>
+</html>
+{% endlocalize %}
