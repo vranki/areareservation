@@ -17,12 +17,12 @@ def sitedetails(request, site_id):
     site = get_object_or_404(Site, pk=site_id)
     return render_to_response('reservations/sitedetails.html', {'site': site, 'reservations': Reservation.objects.filter(site=site), 'futurereservations': futurereservations(site), 'sites': Site.objects.all()})
 
-def newreservation(request, site_id):
+def newreservation(request, site_id, fields = {}):
     foundsite = get_object_or_404(Site, pk=site_id)
     areas = Area.objects.filter(site=foundsite)
     site = foundsite
     levels =  site.usedFlightLevels.split(',')
-    return render_to_response('reservations/new.html', {'site': site, 'areas': areas, 'levels': levels, 'sites': Site.objects.all()}, context_instance=RequestContext(request))
+    return render_to_response('reservations/new.html', {'site': site, 'areas': areas, 'levels': levels, 'sites': Site.objects.all(), 'error': fields.get('error')}, context_instance=RequestContext(request))
 
 def deletereservation(request, reservation_id):
     r = Reservation.objects.get(id=reservation_id)
@@ -39,7 +39,7 @@ def createreservation(request, site_id):
     site = get_object_or_404(Site, pk=site_id)
     areas = Area.objects.filter(site=site)
     levels =  site.usedFlightLevels.split(',')
-    print request.POST['day']
+
     if request.POST['day'] == 'today':
     	startdate = date.today()
     if request.POST['day'] == 'tomorrow':
@@ -53,7 +53,7 @@ def createreservation(request, site_id):
     comment = request.POST['comment']
 
     reservation = Reservation.objects.create(site=site, date=startdate, startTime=starttime, endTime=endtime, status=status, comment=request.POST['comment'])
-
+    reservationcount = 0
     for area in areas:
 	imc = request.POST.has_key('area-' + str(area.id) + "/imc")
 	fl = None
@@ -65,7 +65,11 @@ def createreservation(request, site_id):
 	if fl:
 		areareservation = AreaReservation.objects.create(reservation=reservation, area=area, flightLevel=fl, isImc=imc)
 		print str(areareservation)
+		reservationcount += 1
 # todo check that some areas are created
+    if(reservationcount is 0):
+	reservation.delete()
+	return newreservation(request, site.icao, {'error': 1})
     return sitedetails(request, site.icao)
 
 def setstatus(request, reservation_id, newstatus):

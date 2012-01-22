@@ -14,6 +14,7 @@ div.tableheading {color:#000000;padding:0.2em}
 tr.tableheading {background:#999999}
 tr.tablebody {background:#333333;text-align:center}
 div.tablebody {margin:2em}
+div.error {color:#000000;background:#EEEE00;font-weight:bold;}
 
 fieldset {
   padding: 1em;

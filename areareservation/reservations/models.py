@@ -30,8 +30,9 @@ class Reservation(models.Model):
 	endTime = models.TimeField('Ending time')
 	comment = models.CharField("Comment text", blank=True, null=True, max_length=2048)
 	status = models.IntegerField(choices=STATUS_CHOICES)
+#	created = models.DateTimeField()
 	def __unicode__(self):
-		return self.site.icao + " " + str(self.date) + " (" + str(self.id) + ")"
+		return str(self.site) + " " + str(self.date)
 
 	def areas(self):
 		return AreaReservation.objects.filter(reservation=self)

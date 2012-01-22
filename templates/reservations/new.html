@@ -17,6 +17,15 @@ if (day=="customdate")
   }
 }
 </script>
+
+{% if error != 0 %}
+<div class="error">
+{% if error == 1 %}
+Virhe: Vähintään yksi alue täytyy olla valittuna
+{% endif %}
+</div>
+{% endif %}
+
 <form action="/reservations/{{ site.icao }}/create/" method="post" name="newreservation" onsubmit="return validateForm()">
 <fieldset> <legend><b>Uusi varaus {{ site }}</b></legend>
 <fieldset> <legend><b>Päivä ja aika</b></legend>
