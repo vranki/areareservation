@@ -36,6 +36,10 @@ class Reservation(models.Model):
 
 	def areas(self):
 		return AreaReservation.objects.filter(reservation=self)
+	
+	def statusname(self):
+		return dict(self.STATUS_CHOICES)[self.status]
+
 
 class AreaReservation(models.Model):
 	reservation = models.ForeignKey(Reservation)

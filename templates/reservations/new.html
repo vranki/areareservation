@@ -4,11 +4,9 @@
 <script type="text/javascript">
 function validateForm()
 {
-var day=document.forms["newreservation"]["day"].value;
-alert(day)
+return true;
 if (day=="customdate")
   {
- alert("kek");
   var date = document.forms["newreservation"]["day"].value;
   var validdate = /^\d{2}\.\d{2}$/;
   if(date==null || !validdate.test(date))
@@ -22,6 +20,12 @@ if (day=="customdate")
 <div class="error">
 {% if error == 1 %}
 Virhe: Vähintään yksi alue täytyy olla valittuna
+{% endif %}
+{% if error == 2 %}
+Virhe: Tarkista päivämäärä
+{% endif %}
+{% if error == 3 %}
+Virhe: Tarkista lentopinta
 {% endif %}
 </div>
 {% endif %}
@@ -58,7 +62,8 @@ paikallista aikaa
 <label for="{{ area.id }}/{{ level }}">FL{{ level }} </label>
 {% endfor %}
 <input id="{{ area.id }}/custom" type="radio" name="area-{{ area.id }}" value="custom">
-<label for="{{ area.id }}/custom">FL</label><input type="text" name="{{ area.id }}/customlevel" size="3">
+<label for="{{ area.id }}/custom">FL</label>
+<input type="text" name="{{ area.id }}/customlevel" size="3">
 
    <input id="{{ area.id }}/imc" type="checkbox" name="area-{{ area.id }}/imc">
    <label for="{{ area.id }}/imc">IMC</label>

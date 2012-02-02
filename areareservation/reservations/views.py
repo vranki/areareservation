@@ -33,7 +33,7 @@ def deletereservation(request, reservation_id):
 def detail(request, reservation_id):
     reservation = get_object_or_404(Reservation, pk=reservation_id)
     areas = AreaReservation.objects.filter(reservation=reservation)
-    return render_to_response('reservations/detail.html', {'reservation': reservation, 'areas': areas, 'sites': Site.objects.all()})
+    return render_to_response('reservations/detail.html', {'reservation': reservation, 'areas': areas, 'sites': Site.objects.all()}, context_instance=RequestContext(request))
 
 def createreservation(request, site_id):
     site = get_object_or_404(Site, pk=site_id)
@@ -45,7 +45,10 @@ def createreservation(request, site_id):
     if request.POST['day'] == 'tomorrow':
     	startdate = date.today() + timedelta(days=1)
     if request.POST['day'] == 'customdate':
-    	startdate = str2date(request.POST['date'])
+	try:
+	    	startdate = str2date(request.POST['date'])
+	except:
+		return newreservation(request, site.icao, {'error': 2})
 
     starttime = str2time(request.POST['startTime'])
     endtime = str2time(request.POST['endTime'])
@@ -61,7 +64,11 @@ def createreservation(request, site_id):
 		if request.POST['area-' + str(area.id)] == level:
 			fl = int(level)
 	if request.POST['area-' + str(area.id)] == "custom":
-		fl = int(request.POST[str(area.id) + '/customlevel'])
+		try:
+			fl = int(request.POST[str(area.id) + '/customlevel'])
+		except:
+			reservation.delete()
+			return newreservation(request, site.icao, {'error': 3})
 	if fl:
 		areareservation = AreaReservation.objects.create(reservation=reservation, area=area, flightLevel=fl, isImc=imc)
 		print str(areareservation)
@@ -76,6 +83,13 @@ def setstatus(request, reservation_id, newstatus):
     reservation = get_object_or_404(Reservation, pk=reservation_id)
 # todo check value
     reservation.status = int(newstatus)
+    reservation.save()
+    return detail(request, reservation_id)
+
+def addcomment(request, reservation_id):
+    reservation = get_object_or_404(Reservation, pk=reservation_id)
+    comment = request.POST['comment']
+    reservation.comment = reservation.comment + "\n--\n" + comment
     reservation.save()
     return detail(request, reservation_id)
 

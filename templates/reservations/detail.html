@@ -32,32 +32,42 @@ VMC
 </tr>
 {% endfor %}
 </table>
-{% if reservation.comment %}
 <h2>Lisätiedot</h2>
+<pre>
 {{ reservation.comment }}
-{% endif %}
+</pre>
+<form action="/reservations/addcomment/{{ reservation.id }}/" method="post">
+<textarea id="comment" type="textarea" name="comment" cols="60" rows="3"></textarea><br/>
+<input type="submit" value="    Lisää     "/>
+{% csrf_token %}
+</form>
 
 <h2>Varauksen tila</h2>
 {% if reservation.status == reservation.PLANNED_STATUS %}
-Suunniteltu<br/>
+<div class="status_Planned">Suunniteltu<br/></div>
+<br/>
 <ul>
-<li><a href="/reservations/setstatus/{{ reservation.id }}/{{reservation.REQUESTED_STATUS}}">Merkitse pyydetyksi</a> - varausta on pyydetty, mutta vastausta ei olla saatu</li> 
-<li><a href="/reservations/setstatus/{{ reservation.id }}/{{reservation.ACCEPTED_STATUS}}">Merkitse hyväksytyksi</a> - varaus on hyväksytty</li> 
-<li><a href="/reservations/setstatus/{{ reservation.id }}/{{reservation.REJECTED_STATUS}}">Merkitse hylätyksi</a> - varaus on hylätty</li> 
+<li><div class="status_Requested"><a href="/reservations/setstatus/{{ reservation.id }}/{{reservation.REQUESTED_STATUS}}">Merkitse pyydetyksi</a> - varausta on pyydetty, mutta vastausta ei olla saatu</li> </div>
+<li><div class="status_Accepted"><a href="/reservations/setstatus/{{ reservation.id }}/{{reservation.ACCEPTED_STATUS}}">Merkitse hyväksytyksi</a> - varaus on hyväksytty</li> </div>
+<li><div class="status_Rejected"><a href="/reservations/setstatus/{{ reservation.id }}/{{reservation.REJECTED_STATUS}}">Merkitse hylätyksi</a> - varaus on hylätty</li> </div>
 {% endif %}
 {% if reservation.status == reservation.REQUESTED_STATUS %}
-Pyydetty -><br/>
-<li><a href="/reservations/setstatus/{{ reservation.id }}/{{reservation.ACCEPTED_STATUS}}">Merkitse hyväksytyksi</a> - varaus on hyväksytty</li> 
-<li><a href="/reservations/setstatus/{{ reservation.id }}/{{reservation.REJECTED_STATUS}}">Merkitse hylätyksi</a> - varaus on hylätty</li> 
+<div class="status_Requested">Pyydetty<br/></div>
+<br/>
+<li><div class="status_Accepted"><a href="/reservations/setstatus/{{ reservation.id }}/{{reservation.ACCEPTED_STATUS}}">Merkitse hyväksytyksi</a> - varaus on hyväksytty</li> </div>
+<li><div class="status_Rejected"><a href="/reservations/setstatus/{{ reservation.id }}/{{reservation.REJECTED_STATUS}}">Merkitse hylätyksi</a> - varaus on hylätty</li> </div>
 {% endif %}
 {% if reservation.status == reservation.ACCEPTED_STATUS %}
-Hyväksytty<br/>
+<div class="status_Accepted">Hyväksytty<br/></div>
+<br/>
 {% endif %}
 {% if reservation.status == reservation.REJECTED_STATUS %}
-Hylätty<br/>
+<div class="status_Rejected">Hylätty<br/></div>
+<br/>
 {% endif %}
 </ul>
 <hr/>
+<br/>
 <a href="/reservations/delete/{{ reservation.id }}/">Poista tämä varaus</a><br/>
 {% endblock %}
 

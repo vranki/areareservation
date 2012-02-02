@@ -4,6 +4,8 @@
 
 <h1>{{ site }}</h1>
 
+<a href="/reservations/new/{{ site.icao }}/">Tee uusi varaus</a></li>
+<br/>
 <table border="0" cellspacing="1">
 <tr class="tableheading">
 <td colspan="{{futurereservations|length }}"><div align="center" class="tableheading">Tulevat varaukset</div></td>
@@ -16,10 +18,12 @@
 <hr/>
 {% if res.reservations %}
 {% for r in res.reservations %}
-<a href="/reservations/{{ res.id }}/">
+<div class="status_{{r.statusname}}">
+<a href="/reservations/{{ r.id }}/">
 {% for area in r.areas %}
 {{ area.areaName }} FL{{ area.flightLevel }}<br/>
 {% endfor %}
+</div>
 <hr/>
 {% endfor %}
 </a>
@@ -32,12 +36,37 @@
 {% endfor %}
 </tr>
 </table>
-<a href="/reservations/new/{{ site.icao }}/">Uusi varaus</a></li>
+<br/>
+<table>
+<tr>
+<td>
+<div class="status_Planned">
+Suunniteltu
+</div>
+</td>
+<td>
+<div class="status_Requested">
+Pyydetty
+</div>
+</td>
+<td>
+<div class="status_Accepted">
+Hyväksytty
+</div>
+</td>
+<td>
+<div class="status_Rejected">
+Hylätty
+</div>
+</td>
+</tr>
+</table>
 
-<h2>Kaikki varaukset</h2>
+
+<h2>Kaikki varaukset, myös menneet</h2>
 <ul>
 {% for reservation in reservations %}
-    <li> {{ reservation }} <a href="/reservations/delete/{{ reservation.id }}/">Poista</a></li>
+    <li class="oldreservation"> <a href="/reservations/{{ reservation.id }}/">{{ reservation.date }}</a> (<a href="/reservations/delete/{{ reservation.id }}/">Poista</a>)</li>
 {% endfor %}
 </ul>
 

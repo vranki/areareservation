@@ -15,6 +15,11 @@ tr.tableheading {background:#999999}
 tr.tablebody {background:#333333;text-align:center}
 div.tablebody {margin:2em}
 div.error {color:#000000;background:#EEEE00;font-weight:bold;}
+li.oldreservation {font-size:0.7em;}
+div.status_Planned {background:#444444;}
+div.status_Requested {background:#222266;}
+div.status_Accepted {background:#226622;}
+div.status_Rejected {background:#662222;}
 
 fieldset {
   padding: 1em;
