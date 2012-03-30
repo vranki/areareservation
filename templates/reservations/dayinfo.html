@@ -1,0 +1,31 @@
+{% extends "reservations/base.html" %}
+
+{% block content %}
+
+<h1>{{ site.name }} {{ day }}</h1>
+{% if pilots %}
+<h2>Lentämään ilmoittautuneet ({{ pilots|length }}):</h2>
+<ul>
+{% for pilot in pilots %}
+<li>{{ pilot }}</li>
+{% endfor %}
+</ul>
+{% else %}
+(Ei vielä ketään ilmoittautunut lentämään)
+{% endif %}
+<p>
+Ilmoittaudu lentämään kyseisenä päivänä kirjoittamalla nimesi tähän. Lentäjien
+lukumäärä on tärkeä tietää alueita varatessa.
+</p>
+<form action="/reservations/dayinfo/{{ site.icao }}/{{ day|date:"j.n" }}/" method="post">
+<input type="text" name="pilotname" size="25"/>
+<input type="hidden" name="save" value="yes"/>
+<input type="submit" value="    Ilmoittaudu     "/>
+
+{% csrf_token %}
+</form>
+<p>
+Takaisin <a href="/sites/{{ site.icao }}/">{{ site.name }}</a>n tietoihin
+</p>
+{% endblock %}
+

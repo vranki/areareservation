@@ -65,10 +65,14 @@ class WeekInfo(models.Model):
 class DayInfo(models.Model):
 	date = models.DateField('Date')
 	site = models.ForeignKey(Site)
-	pilots = models.CharField("Flying pilots", blank=True, null=True, max_length=2048)
+	pilots = models.CharField("Flying pilots", blank=True, null=False, max_length=2048)
 	isSpecial = models.BooleanField("Special day")
+
+	def pilotCount(self):
+		return len(self.pilots.split(","))
+
 	def __unicode__(self):
-		return str(self.site) + " week " + str(self.weeknumber)
+		return str(self.site) + " on " + str(self.date)
 	class Meta:
 		unique_together = ("date", "site")
 

@@ -2,10 +2,14 @@
 
 {% block content %}
 
-<h1>{{ site }}</h1>
-Vastuuhenkilöt
-<form action="/reservations/personnel/{{ site.icao }}/" method="post">
+<h1>{{ site.name }}n Vastuuhenkilöt</h1>
+<p>
+Alla on lista aluvarauksista vastaavista henkilöistä (AA-kerho)
+ja heidän varahenkilöistään joka viikolle. Voit muokata listaa
+vapaasti. Paina lopuksi "Tallenna muutokset"-nappia.
+</p>
 
+<form action="/reservations/personnel/{{ site.icao }}/" method="post">
 <table>
 <tr>
 <th>Viikko</th>
@@ -24,6 +28,7 @@ Vastuuhenkilöt
 {% endfor %}
 </tr>
 </table>
+<input type="hidden" name="save" value="yes"/>
 <input type="submit" value="    Tallenna muutokset     "/>
 
 {% csrf_token %}

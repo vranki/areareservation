@@ -8,6 +8,8 @@ from reservations.models import Area
 from reservations.models import Reservation
 from reservations.models import AreaReservation
 from reservations.models import WeekInfo
+from reservations.models import DayInfo
+
 from datetime import date, time, datetime, timedelta
 #import time
 
@@ -99,23 +101,52 @@ def personnel(request, site_id):
     foundsite = get_object_or_404(Site, pk=site_id)
     site = foundsite
     weeks = []
+    save = request.POST.has_key('save')
+    wi = None
     for i in range(1, 53):
 	try:
 		wi = WeekInfo.objects.get(weeknumber=i)
 	except WeekInfo.DoesNotExist:
-		wi = None
+		if save:
+			wi = WeekInfo.objects.create(weeknumber=i, site=site)
+	if save:
+		aa_person = request.POST['aa_person_'+str(i)]
+		aa_backup = request.POST['aa_backup_'+str(i)]
+		if aa_person is not None and len(aa_person) > 0:
+			wi.aa_person = aa_person
+		if aa_backup is not None and len(aa_backup) > 0:
+			wi.aa_backup = aa_backup
 
-	aa_person = request.POST['aa_person_'+str(i)]
-	if aa_person is not None and len(aa_person) > 0:
-		print "Set stuff"
- 	# TODO jatka tästä
 	if wi is not None:
 		weeks.append({'number': i, 'aa_person': wi.aa_person, 'aa_backup': wi.aa_backup})
+		if save:
+			wi.save()
 	else:
 		weeks.append({'number': i, 'aa_person': '', 'aa_backup': ''})
+    return render_to_response('reservations/personnel.html', {'site': site, 'weeks': weeks, 'sites': Site.objects.all()}, context_instance=RequestContext(request))
 
-    return render_to_response('reservations/personnel.html', {'site': site, 'weeks': weeks}, context_instance=RequestContext(request))
+def dayinfo(request, site_id, day_string):
+    site = get_object_or_404(Site, pk=site_id)
+    splitday = day_string.split('.')
+    day = date(date.today().year, int(splitday[1]), int(splitday[0]))
+    pilots = []
+    save = request.POST.has_key('save')
+    try:
+    	di = DayInfo.objects.get(site__exact=site,date__exact=day)
+	if di.pilots is not None:
+		pilots = di.pilots.split(',')
+    except DayInfo.DoesNotExist:
+	di = None
+	if save:
+		di = DayInfo.objects.create(date=day, site=site)
+		di.pilots = ""
 
+    if save:
+	pilots.append(request.POST['pilotname'])
+	di.pilots = ",".join(pilots)
+	di.save()
+
+    return render_to_response('reservations/dayinfo.html', {'site': site, 'day': day, 'pilots': pilots, 'sites': Site.objects.all()}, context_instance=RequestContext(request))
 
 def futurereservations(site):
     numDays=7
@@ -123,7 +154,17 @@ def futurereservations(site):
     for i in range(0, numDays):
 	d = date.today() + timedelta(days=i)
 	res = Reservation.objects.filter(site__exact=site,date__exact=d)
-        dayinfo = {'date': d, 'reservations': res, 'sites': Site.objects.all()}
+	try:
+		di = DayInfo.objects.get(site__exact=site,date__exact=d)
+	except DayInfo.DoesNotExist:
+		di = None
+
+	try:
+		wi = WeekInfo.objects.get(site__exact=site,weeknumber__exact=d.isocalendar()[1])
+	except DayInfo.DoesNotExist:
+		wi = None
+
+        dayinfo = {'date': d, 'reservations': res, 'sites': Site.objects.all(), 'dayinfo': di, 'weekinfo': wi}
 	fr.append(dayinfo)
     return fr
 

@@ -27,13 +27,22 @@
 <hr/>
 {% endfor %}
 </a>
-
 {% else %}
-    -
+(ei varausta)
 {% endif %}
 </div>
 <hr/>
-<a href="/reservations/dayinfo/{{ res.date|date:"j.n" }}/">Päivän tiedot</a>
+{% if res.dayinfo.pilotCount %}
+<a href="/reservations/dayinfo/{{ site.icao }}/{{ res.date|date:"j.n" }}/">
+{{ res.dayinfo.pilotCount }} lentäjää</a>
+{% else %}
+<a href="/reservations/dayinfo/{{ site.icao }}/{{ res.date|date:"j.n" }}/">Ilmoittaudu lentämään</a>
+{% endif %}
+{% if res.weekinfo.aa_person %}
+<hr/>
+Vastuuhenkilö:
+{{ res.weekinfo.aa_person }}
+{% endif %}
 </td>
 {% endfor %}
 </tr>
