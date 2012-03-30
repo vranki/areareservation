@@ -16,6 +16,7 @@ urlpatterns = patterns('reservations.views',
     url(r'^reservations/addcomment/(?P<reservation_id>.+)/$', 'addcomment'),
     url(r'^reservations/setstatus/(?P<reservation_id>.+)/(?P<newstatus>.+)$', 'setstatus'),
     url(r'^reservations/(?P<site_id>.+)/create/$', 'createreservation'),
+    url(r'^reservations/personnel/(?P<site_id>.+)/$', 'personnel'),
 )
 urlpatterns += patterns('',
     # Uncomment the admin/doc line below to enable admin documentation:

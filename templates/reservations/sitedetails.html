@@ -4,7 +4,7 @@
 
 <h1>{{ site }}</h1>
 
-<a href="/reservations/new/{{ site.icao }}/">Tee uusi varaus</a></li>
+<a href="/reservations/new/{{ site.icao }}/">Tee uusi varaus</a> | <a href="/reservations/personnel/{{ site.icao }}/">Vastuuhenkilöt</a>
 <br/>
 <table border="0" cellspacing="1">
 <tr class="tableheading">
@@ -32,6 +32,8 @@
     -
 {% endif %}
 </div>
+<hr/>
+<a href="/reservations/dayinfo/{{ res.date|date:"j.n" }}/">Päivän tiedot</a>
 </td>
 {% endfor %}
 </tr>

@@ -7,6 +7,7 @@ from reservations.models import Site
 from reservations.models import Area
 from reservations.models import Reservation
 from reservations.models import AreaReservation
+from reservations.models import WeekInfo
 from datetime import date, time, datetime, timedelta
 #import time
 
@@ -92,6 +93,29 @@ def addcomment(request, reservation_id):
     reservation.comment = reservation.comment + "\n--\n" + comment
     reservation.save()
     return detail(request, reservation_id)
+
+
+def personnel(request, site_id):
+    foundsite = get_object_or_404(Site, pk=site_id)
+    site = foundsite
+    weeks = []
+    for i in range(1, 53):
+	try:
+		wi = WeekInfo.objects.get(weeknumber=i)
+	except WeekInfo.DoesNotExist:
+		wi = None
+
+	aa_person = request.POST['aa_person_'+str(i)]
+	if aa_person is not None and len(aa_person) > 0:
+		print "Set stuff"
+ 	# TODO jatka tästä
+	if wi is not None:
+		weeks.append({'number': i, 'aa_person': wi.aa_person, 'aa_backup': wi.aa_backup})
+	else:
+		weeks.append({'number': i, 'aa_person': '', 'aa_backup': ''})
+
+    return render_to_response('reservations/personnel.html', {'site': site, 'weeks': weeks}, context_instance=RequestContext(request))
+
 
 def futurereservations(site):
     numDays=7

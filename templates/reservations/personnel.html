@@ -1,0 +1,33 @@
+{% extends "reservations/base.html" %}
+
+{% block content %}
+
+<h1>{{ site }}</h1>
+Vastuuhenkilöt
+<form action="/reservations/personnel/{{ site.icao }}/" method="post">
+
+<table>
+<tr>
+<th>Viikko</th>
+<th>AA-vastaava</th>
+<th>Varalla</th>
+</tr>
+{% for week in weeks %}
+<tr>
+<td align="right">{{ week.number }}</td>
+<td>
+<input type="text" name="aa_person_{{ week.number }}" size="25" value="{{ week.aa_person }}"/>
+</td>
+<td>
+<input type="text" name="aa_backup_{{ week.number }}" size="25" value="{{ week.aa_backup }}"/>
+</td>
+{% endfor %}
+</tr>
+</table>
+<input type="submit" value="    Tallenna muutokset     "/>
+
+{% csrf_token %}
+</form>
+
+{% endblock %}
+
