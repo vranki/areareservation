@@ -24,8 +24,11 @@ def newreservation(request, site_id, fields = {}):
     foundsite = get_object_or_404(Site, pk=site_id)
     areas = Area.objects.filter(site=foundsite)
     site = foundsite
+    date = None
+    if request.GET.has_key('date'):
+	date = request.GET['date']
     levels =  site.usedFlightLevels.split(',')
-    return render_to_response('reservations/new.html', {'site': site, 'areas': areas, 'levels': levels, 'sites': Site.objects.all(), 'error': fields.get('error')}, context_instance=RequestContext(request))
+    return render_to_response('reservations/new.html', {'site': site, 'areas': areas, 'levels': levels, 'sites': Site.objects.all(), 'error': fields.get('error'), 'date': date}, context_instance=RequestContext(request))
 
 def deletereservation(request, reservation_id):
     r = Reservation.objects.get(id=reservation_id)

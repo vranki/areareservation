@@ -33,22 +33,23 @@ Virhe: Tarkista lentopinta
 <form action="/reservations/{{ site.icao }}/create/" method="post" name="newreservation" onsubmit="return validateForm()">
 <fieldset> <legend><b>Uusi varaus {{ site }}</b></legend>
 <fieldset> <legend><b>Päivä ja aika</b></legend>
-<input id="today" type="radio" name="day" value="today" checked="yes">
+<input id="today" type="radio" name="day" value="today" {{ date|default_if_none:'checked="yes"' }}>
+
 <label for="today">Tänään</label>
 <input id="tomorrow" type="radio" name="day" value="tomorrow">
 <label for="tomorrow">Huomenna</label>
-<input id="customdate" type="radio" name="day" value="customdate">
+<input id="customdate" type="radio" name="day" value="customdate" {% if date %} checked="yes" {% endif %}>
 <label for="customdate"></label>
 <label for="date">Myöhemmin</label>
-<input id="date" type="text" name="date" size="5" value="PP.KK" 
+<input id="date" type="text" name="date" size="5" value="{{ date|default_if_none:'PP.KK' }}" 
 onblur="if (this.value == '') {this.value = 'PP.KK';}"  onfocus="if (this.value == 'PP.KK') {this.value = '';}"/> <br/>
 
 Kello
    <label for="startTime"></label>
-   <input id="startTime" type="text" name="startTime" size="5" value="08.00">
+   <input id="startTime" type="text" name="startTime" size="5" value="11.00">
 -
    <label for="endTime"></label>
-   <input id="endTime" type="text" name="endTime" size="5" value="20.00">
+   <input id="endTime" type="text" name="endTime" size="5" value="21.00">
 paikallista aikaa
  <br/>
 </fieldset>
