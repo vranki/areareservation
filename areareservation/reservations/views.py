@@ -164,7 +164,7 @@ def futurereservations(site):
 
 	try:
 		wi = WeekInfo.objects.get(site__exact=site,weeknumber__exact=d.isocalendar()[1])
-	except DayInfo.DoesNotExist:
+	except WeekInfo.DoesNotExist:
 		wi = None
 
         dayinfo = {'date': d, 'reservations': res, 'sites': Site.objects.all(), 'dayinfo': di, 'weekinfo': wi}
