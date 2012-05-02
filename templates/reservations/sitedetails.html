@@ -13,7 +13,7 @@ tarvita aluetta varatessa.
 </p>
 
 <a href="/reservations/new/{{ site.icao }}/">Tee uusi aluevaraus</a> | 
-<a href="/reservations/personnel/{{ site.icao }}/">Vastuuhenkilöt</a>
+<a href="/reservations/personnel/{{ site.icao }}/">AA-henkilöt</a>
 <br/>
 <table border="0" cellspacing="1">
 <tr class="tableheading">
@@ -23,8 +23,16 @@ tarvita aluetta varatessa.
 <div class="tablebody">
 {% for res in futurereservations %}
 <td valign="top">
-{{ res.date|date:"D j.n" }}<br/>
+<a href="/reservations/dayinfo/{{ site.icao }}/{{ res.date|date:"j.n" }}/">{{ res.date|date:"D j.n" }}</a><br/>
 <hr/>
+
+{% if res.dayinfo.isSpecial %}
+<div class="specialDay">
+ERIKOISPÄIVÄ - aluevarausjärjestelmää<br/>
+ei käytetä tänä päivänä. Lue foorumilta lisää.
+</div>
+{% else %}
+
 {% if res.reservations %}
 {% for r in res.reservations %}
 <div class="status_{{r.statusname}}">
@@ -40,7 +48,10 @@ tarvita aluetta varatessa.
 Ei aluevarausta - <a href="/reservations/new/{{ site.icao }}/?date={{ res.date|date:"j.n" }}">varaa</a>
 {% endif %}
 </div>
+{% endif %}
 <hr/>
+
+
 {% if res.dayinfo.pilotCount %}
 <a href="/reservations/dayinfo/{{ site.icao }}/{{ res.date|date:"j.n" }}/">
 {{ res.dayinfo.pilotCount }} lentäjää</a>
@@ -62,27 +73,26 @@ Varausten tilat ovat merkitty väreillä seuraavasti:
 <tr>
 <td>
 <div class="status_Planned">
-Suunniteltu
+Suunniteltu, ei vielä pyydetty
 </div>
 </td>
 <td>
 <div class="status_Requested">
-Pyydetty
+Pyydetty AMC:ltä, vastausta ei saatu syystä tai toisesta
 </div>
 </td>
 <td>
 <div class="status_Accepted">
-Hyväksytty
+Hyväksytty ja vahvistettu / tullaan vahvistamaan aamulla
 </div>
 </td>
 <td>
 <div class="status_Rejected">
-Hylätty
+Hylätty syystä tai toisesta
 </div>
 </td>
 </tr>
 </table>
-
 
 <h2>Kaikki varaukset, myös menneet</h2>
 <ul>

@@ -3,6 +3,7 @@
 {% block content %}
 
 <h1>{{ site.name }} {{ day }}</h1>
+
 {% if pilots %}
 <h2>Lentämään ilmoittautuneet ({{ pilots|length }}):</h2>
 <ul>
@@ -24,6 +25,24 @@ lukumäärä on tärkeä tietää alueita varatessa.
 
 {% csrf_token %}
 </form>
+
+<h2>Erikoispäivä</h2>
+<p>Jos kyseisenä päivänä hoidetaan aluevaraukset tavallisesta poikkeavasti
+esimerkiksi kilpailujen vuoksi, voit merkitä sen erikoispäiväksi. Tällöin normaalit 
+aluevaraukset eivät päde.</p>
+<p>
+<form action="/reservations/dayinfo/{{ site.icao }}/{{ day|date:"j.n" }}/" method="post">
+<input type="hidden" name="save" value="yes"/>
+{% if isSpecial %}
+Päivä on erikoispäivä - <input type="submit" value="Merkitse tavalliseksi päiväksi"/>
+{% else %}
+<input type="hidden" name="isSpecial" value="yes"/>
+Päivä on tavallinen päivä - <input type="submit" value="Merkitse erikoispäiväksi"/>
+{% endif %}
+{% csrf_token %}
+</form>
+</p>
+
 <p>
 Takaisin <a href="/sites/{{ site.icao }}/">{{ site.name }}</a>n tietoihin
 </p>

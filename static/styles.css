@@ -1,29 +1,30 @@
+/*
 * {padding:0.0em; margin:0.0em;}
-
-body {background:#000000; font-family: "Helvetica Neue", Helvetica, Verdana, sans-serif; color:#FFFFFF;}
+*/
+body {background:#FFFFFF; font-family: "Helvetica Neue", Helvetica, Verdana, sans-serif; color:#000000;}
 p, ul, ol {font-size:1.2em;}
 h1 {font-size:1.5em;}
 h2 {font-size:1.3em;}
-a {color:#CCCCFF}
+a {color:#222266}
 td.title {background:#FFFFFF}
 a.title {color:#000000}
-td.sitelist {background:#000033}
-a.sitelist {background:#000066;color:#FFFFFF}
-td.body {background:#111111;}
+td.sitelist {background:#FFFFFF}
+a.sitelist {background:#FFFFFF;color:#000000}
+td.body {background:#EEEEEE;}
 div.tableheading {color:#000000;padding:0.2em}
-tr.tableheading {background:#999999}
-tr.tablebody {background:#333333;text-align:center}
+tr.tableheading {background:#FFFFFF;}
+tr.tablebody {background:#CCCCCC;text-align:center;}
 div.tablebody {margin:2em}
 div.error {color:#000000;background:#EEEE00;font-weight:bold;}
 li.oldreservation {font-size:0.7em;}
-div.status_Planned {background:#444444;}
-div.status_Requested {background:#222266;}
-div.status_Accepted {background:#226622;}
-div.status_Rejected {background:#662222;}
-
+div.status_Planned {background:#AAAAAA;}
+div.status_Requested {background:#CCCCFF;}
+div.status_Accepted {background:#CCFFCC;}
+div.status_Rejected {background:#FFCCCC;}
+div.specialDay { background:#FFFFCC;}
 fieldset {
   padding: 1em;
-  background-color:#333333;
+  background-color:#CCCCCC;
   }
 
 label {
@@ -32,4 +33,8 @@ label {
   text-align:right;
   font-weight:bold;
 }
-
+hr {
+    border: 0;
+    border-bottom: 1px dashed #ccc;
+    background: #999;
+}

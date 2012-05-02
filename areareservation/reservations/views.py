@@ -133,9 +133,11 @@ def dayinfo(request, site_id, day_string):
     splitday = day_string.split('.')
     day = date(date.today().year, int(splitday[1]), int(splitday[0]))
     pilots = []
+    isSpecial = False
     save = request.POST.has_key('save')
     try:
     	di = DayInfo.objects.get(site__exact=site,date__exact=day)
+	isSpecial = di.isSpecial
 	if di.pilots is not None:
 		pilots = di.pilots.split(',')
     except DayInfo.DoesNotExist:
@@ -145,11 +147,13 @@ def dayinfo(request, site_id, day_string):
 		di.pilots = ""
 
     if save:
-	pilots.append(request.POST['pilotname'])
-	di.pilots = ",".join(pilots)
+	if(request.POST.has_key('pilotname')):
+		pilots.append(request.POST['pilotname'])
+		di.pilots = ",".join(pilots)
+	isSpecial = di.isSpecial = request.POST.has_key('isSpecial')
 	di.save()
 
-    return render_to_response('reservations/dayinfo.html', {'site': site, 'day': day, 'pilots': pilots, 'sites': Site.objects.all()}, context_instance=RequestContext(request))
+    return render_to_response('reservations/dayinfo.html', {'site': site, 'day': day, 'pilots': pilots, 'isSpecial': isSpecial, 'sites': Site.objects.all()}, context_instance=RequestContext(request))
 
 def futurereservations(site):
     numDays=7
