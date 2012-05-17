@@ -18,7 +18,7 @@
 Ilmoittaudu lentämään kyseisenä päivänä kirjoittamalla nimesi tähän. Lentäjien
 lukumäärä on tärkeä tietää alueita varatessa.
 </p>
-<form action="/reservations/dayinfo/{{ site.icao }}/{{ day|date:"j.n" }}/" method="post">
+<form action="." method="post">
 <input type="text" name="pilotname" size="25"/>
 <input type="hidden" name="save" value="yes"/>
 <input type="submit" value="    Ilmoittaudu     "/>
@@ -31,7 +31,7 @@ lukumäärä on tärkeä tietää alueita varatessa.
 esimerkiksi kilpailujen vuoksi, voit merkitä sen erikoispäiväksi. Tällöin normaalit 
 aluevaraukset eivät päde.</p>
 <p>
-<form action="/reservations/dayinfo/{{ site.icao }}/{{ day|date:"j.n" }}/" method="post">
+<form action="." method="post">
 <input type="hidden" name="save" value="yes"/>
 {% if isSpecial %}
 Päivä on erikoispäivä - <input type="submit" value="Merkitse tavalliseksi päiväksi"/>
@@ -44,7 +44,7 @@ Päivä on tavallinen päivä - <input type="submit" value="Merkitse erikoispäi
 </p>
 
 <p>
-Takaisin <a href="/sites/{{ site.icao }}/">{{ site.name }}</a>n tietoihin
+Takaisin <a href="../../../../sites/{{ site.icao }}/">{{ site.name }}</a>n tietoihin
 </p>
 {% endblock %}
 

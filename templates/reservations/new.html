@@ -30,7 +30,7 @@ Virhe: Tarkista lentopinta
 </div>
 {% endif %}
 
-<form action="/reservations/{{ site.icao }}/create/" method="post" name="newreservation" onsubmit="return validateForm()">
+<form action="../../../reservations/{{ site.icao }}/create/" method="post" name="newreservation" onsubmit="return validateForm()">
 <fieldset> <legend><b>Uusi varaus {{ site }}</b></legend>
 <fieldset> <legend><b>Päivä ja aika</b></legend>
 <input id="today" type="radio" name="day" value="today" {{ date|default_if_none:'checked="yes"' }}>

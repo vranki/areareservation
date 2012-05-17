@@ -8,12 +8,12 @@ Alla on lista lähipäivien aluevarauksista, halukkaista lentäjistä ja
 vastuuhenkilöstä. Näet varauksen tarkemmat tiedot klikkaamalla sitä.
 </p>
 <p>
-Lentäjä: Ilmoittaudu lentämään haluaminasi päivinä. Tätä tietoa voidaan
-tarvita aluetta varatessa.
+Lentäjä: Ilmoittaudu lentämään haluaminasi päivinä. Tätä tietoa voidaan tarvita aluetta varatessa.
+Alueita ei varata yhdelle lentäjälle.
 </p>
 
-<a href="/reservations/new/{{ site.icao }}/">Tee uusi aluevaraus</a> | 
-<a href="/reservations/personnel/{{ site.icao }}/">AA-henkilöt</a>
+<a href="../../reservations/new/{{ site.icao }}/">Tee uusi aluevaraus</a> | 
+<a href="../../reservations/personnel/{{ site.icao }}/">AA-henkilöt</a>
 <br/>
 <table border="0" cellspacing="1">
 <tr class="tableheading">
@@ -23,7 +23,7 @@ tarvita aluetta varatessa.
 <div class="tablebody">
 {% for res in futurereservations %}
 <td valign="top">
-<a href="/reservations/dayinfo/{{ site.icao }}/{{ res.date|date:"j.n" }}/">{{ res.date|date:"D j.n" }}</a><br/>
+<a href="../../reservations/dayinfo/{{ site.icao }}/{{ res.date|date:"j.n" }}/">{{ res.date|date:"D j.n" }}</a><br/>
 <hr/>
 
 {% if res.dayinfo.isSpecial %}
@@ -36,7 +36,7 @@ ei käytetä tänä päivänä. Lue foorumilta lisää.
 {% if res.reservations %}
 {% for r in res.reservations %}
 <div class="status_{{r.statusname}}">
-<a href="/reservations/{{ r.id }}/">
+<a href="../../reservations/{{ r.id }}/">
 {% for area in r.areas %}
 {{ area.areaName }} FL{{ area.flightLevel }}<br/>
 {% endfor %}
@@ -45,7 +45,7 @@ ei käytetä tänä päivänä. Lue foorumilta lisää.
 {% endfor %}
 </a>
 {% else %}
-Ei aluevarausta - <a href="/reservations/new/{{ site.icao }}/?date={{ res.date|date:"j.n" }}">varaa</a>
+Ei aluevarausta - <a href="../../reservations/new/{{ site.icao }}/?date={{ res.date|date:"j.n" }}">varaa</a>
 {% endif %}
 </div>
 {% endif %}
@@ -53,10 +53,10 @@ Ei aluevarausta - <a href="/reservations/new/{{ site.icao }}/?date={{ res.date|d
 
 
 {% if res.dayinfo.pilotCount %}
-<a href="/reservations/dayinfo/{{ site.icao }}/{{ res.date|date:"j.n" }}/">
+<a href="../../reservations/dayinfo/{{ site.icao }}/{{ res.date|date:"j.n" }}/">
 {{ res.dayinfo.pilotCount }} lentäjää</a>
 {% else %}
-<a href="/reservations/dayinfo/{{ site.icao }}/{{ res.date|date:"j.n" }}/">Ilmoittaudu lentämään</a>
+<a href="../../reservations/dayinfo/{{ site.icao }}/{{ res.date|date:"j.n" }}/">Ilmoittaudu lentämään</a>
 {% endif %}
 {% if res.weekinfo.aa_person %}
 <hr/>
@@ -93,14 +93,14 @@ Hylätty syystä tai toisesta
 </td>
 </tr>
 </table>
-
+<!--
 <h2>Kaikki varaukset, myös menneet</h2>
 <ul>
 {% for reservation in reservations %}
-    <li class="oldreservation"> <a href="/reservations/{{ reservation.id }}/">{{ reservation.date }}</a> (<a href="/reservations/delete/{{ reservation.id }}/">Poista</a>)</li>
+    <li class="oldreservation"> <a href="../../reservations/{{ reservation.id }}/">{{ reservation.date }}</a> (<a href="../../reservations/delete/{{ reservation.id }}/">Poista</a>)</li>
 {% endfor %}
 </ul>
-
+-->
 
 {% endblock %}
 

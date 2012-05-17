@@ -36,7 +36,7 @@ VMC
 <pre>
 {{ reservation.comment }}
 </pre>
-<form action="/reservations/addcomment/{{ reservation.id }}/" method="post">
+<form action="../addcomment/{{ reservation.id }}/" method="post">
 <textarea id="comment" type="textarea" name="comment" cols="60" rows="3"></textarea><br/>
 <input type="submit" value="    Lisää     "/>
 {% csrf_token %}
@@ -47,15 +47,15 @@ VMC
 <div class="status_Planned">Suunniteltu<br/></div>
 <br/>
 <ul>
-<li><div class="status_Requested"><a href="/reservations/setstatus/{{ reservation.id }}/{{reservation.REQUESTED_STATUS}}">Merkitse pyydetyksi</a> - varausta on pyydetty AMC:ltä, mutta vastausta ei olla saatu</li> </div>
-<li><div class="status_Accepted"><a href="/reservations/setstatus/{{ reservation.id }}/{{reservation.ACCEPTED_STATUS}}">Merkitse hyväksytyksi</a> - AMC hyväksyi varauksen ja se aiotaan aamulla vahvistaa</li> </div>
-<li><div class="status_Rejected"><a href="/reservations/setstatus/{{ reservation.id }}/{{reservation.REJECTED_STATUS}}">Merkitse hylätyksi</a> - AMC ei hyväksynyt varausta</li> </div>
+<li><div class="status_Requested"><a href="../setstatus/{{ reservation.id }}/{{reservation.REQUESTED_STATUS}}">Merkitse pyydetyksi</a> - varausta on pyydetty AMC:ltä, mutta vastausta ei olla saatu</li> </div>
+<li><div class="status_Accepted"><a href="../setstatus/{{ reservation.id }}/{{reservation.ACCEPTED_STATUS}}">Merkitse hyväksytyksi</a> - AMC hyväksyi varauksen ja se aiotaan aamulla vahvistaa</li> </div>
+<li><div class="status_Rejected"><a href="../setstatus/{{ reservation.id }}/{{reservation.REJECTED_STATUS}}">Merkitse hylätyksi</a> - AMC ei hyväksynyt varausta</li> </div>
 {% endif %}
 {% if reservation.status == reservation.REQUESTED_STATUS %}
 <div class="status_Requested">Pyydetty<br/></div>
 <br/>
-<li><div class="status_Accepted"><a href="/reservations/setstatus/{{ reservation.id }}/{{reservation.ACCEPTED_STATUS}}">Merkitse hyväksytyksi</a> - AMC hyväksyi varauksen ja se aiotaan aamulla vahvistaa</li> </div>
-<li><div class="status_Rejected"><a href="/reservations/setstatus/{{ reservation.id }}/{{reservation.REJECTED_STATUS}}">Merkitse hylätyksi</a> - AMC ei hyväksynyt varausta</li> </div>
+<li><div class="status_Accepted"><a href="../setstatus/{{ reservation.id }}/{{reservation.ACCEPTED_STATUS}}">Merkitse hyväksytyksi</a> - AMC hyväksyi varauksen ja se aiotaan aamulla vahvistaa</li> </div>
+<li><div class="status_Rejected"><a href="../setstatus/{{ reservation.id }}/{{reservation.REJECTED_STATUS}}">Merkitse hylätyksi</a> - AMC ei hyväksynyt varausta</li> </div>
 {% endif %}
 {% if reservation.status == reservation.ACCEPTED_STATUS %}
 <div class="status_Accepted">Hyväksytty<br/></div>
@@ -68,6 +68,5 @@ VMC
 </ul>
 <hr/>
 <br/>
-<a href="/reservations/delete/{{ reservation.id }}/">Poista tämä varaus</a><br/>
+<a href="../delete/{{ reservation.id }}/">Poista tämä varaus</a><br/>
 {% endblock %}
-

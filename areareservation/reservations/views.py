@@ -1,6 +1,6 @@
 # coding=UTF-8
 from django.conf.urls.defaults import *
-from django.shortcuts import render_to_response, get_object_or_404
+from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.http import HttpResponse
 from django.template import RequestContext
 from reservations.models import Site
@@ -34,7 +34,7 @@ def deletereservation(request, reservation_id):
     r = Reservation.objects.get(id=reservation_id)
     site = r.site
     r.delete()
-    return sitedetails(request, site.icao)
+    return redirect('/jasenet/areareservation/sites/' + site.icao)
 
 def detail(request, reservation_id):
     reservation = get_object_or_404(Reservation, pk=reservation_id)
@@ -77,13 +77,12 @@ def createreservation(request, site_id):
 			return newreservation(request, site.icao, {'error': 3})
 	if fl:
 		areareservation = AreaReservation.objects.create(reservation=reservation, area=area, flightLevel=fl, isImc=imc)
-		print str(areareservation)
 		reservationcount += 1
 # todo check that some areas are created
     if(reservationcount is 0):
 	reservation.delete()
 	return newreservation(request, site.icao, {'error': 1})
-    return sitedetails(request, site.icao)
+    return redirect('/jasenet/areareservation/sites/' + site.icao)
 
 def setstatus(request, reservation_id, newstatus):
     reservation = get_object_or_404(Reservation, pk=reservation_id)
@@ -97,7 +96,7 @@ def addcomment(request, reservation_id):
     comment = request.POST['comment']
     reservation.comment = reservation.comment + "\n--\n" + comment
     reservation.save()
-    return detail(request, reservation_id)
+    return redirect('/jasenet/areareservation/reservations/' + str(reservation_id) + '/')
 
 
 def personnel(request, site_id):
@@ -115,9 +114,9 @@ def personnel(request, site_id):
 	if save:
 		aa_person = request.POST['aa_person_'+str(i)]
 		aa_backup = request.POST['aa_backup_'+str(i)]
-		if aa_person is not None and len(aa_person) > 0:
+		if aa_person is not None:
 			wi.aa_person = aa_person
-		if aa_backup is not None and len(aa_backup) > 0:
+		if aa_backup is not None:
 			wi.aa_backup = aa_backup
 
 	if wi is not None:
